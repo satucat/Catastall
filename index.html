@@ -27,50 +27,28 @@
       border-radius: 10px;
       background-color: #000;
       box-shadow: 0 0 10px #fff;
+      z-index: 10;
     }
     pre.cat {
       text-align: left;
       color: #fff;
       font-size: 14px;
     }
-    button.copy-btn {
-      margin-top: 15px;
-      padding: 10px 20px;
-      background: #0f0;
-      color: #000;
-      font-weight: bold;
-      border: none;
-      cursor: pointer;
-      border-radius: 5px;
-    }
-    button.copy-btn:hover {
-      background: #090;
+    pre.command-text {
+      background: #000;
+      color: #fff;
+      font-family: 'Courier New', Courier, monospace;
+      padding: 10px;
+      border-radius: 8px;
+      border: 1px solid #fff;
+      display: inline-block;
+      margin: 10px 0;
     }
     .footer {
       margin-top: 20px;
       font-size: 12px;
       color: #fff;
       opacity: 0.7;
-    }
-    /* Falling cat images */
-    .falling-cats {
-      position: absolute;
-      top: 0;
-      left: 0;
-      right: 0;
-      bottom: 0;
-      z-index: -1;
-      pointer-events: none;
-      overflow: hidden;
-    }
-    .falling-cats img {
-      position: absolute;
-      width: 30px;
-      animation: fall 5s linear infinite;
-    }
-    @keyframes fall {
-      0% { transform: translateY(-100px); }
-      100% { transform: translateY(100vh); }
     }
   </style>
   <script>
@@ -80,20 +58,9 @@
         window.location.href = "/catastall.ps1";
       }
     }
-    function copyCommand() {
-      navigator.clipboard.writeText('iwr https://cata.hs.vc/catastall.ps1 | iex');
-      alert('Command copied!');
-    }
   </script>
 </head>
 <body>
-  <div class="falling-cats">
-    <img src="https://cata.hs.vc/websiteassets/cat.png" style="animation-delay: 0s; left: 10%;"/>
-    <img src="https://cata.hs.vc/websiteassets/cat.png" style="animation-delay: 1s; left: 25%;"/>
-    <img src="https://cata.hs.vc/websiteassets/cat.png" style="animation-delay: 2s; left: 40%;"/>
-    <img src="https://cata.hs.vc/websiteassets/cat.png" style="animation-delay: 3s; left: 55%;"/>
-    <img src="https://cata.hs.vc/websiteassets/cat.png" style="animation-delay: 4s; left: 70%;"/>
-  </div>
 
   <div class="container">
     <pre class="cat">
@@ -108,11 +75,50 @@
 
     <h2>Welcome to Catastall!</h2>
     <p>Run this command in PowerShell:</p>
-    <pre>iwr https://cata.hs.vc | iex</pre>
+    <pre class="command-text">iwr https://cata.hs.vc | iex</pre>
 
     <div class="footer">
       © 2025 satucat — every cat is nice at some point...
     </div>
   </div>
+
+<script>
+  function createCat() {
+    const cat = document.createElement('img');
+    cat.src = 'https://cata.hs.vc/websiteassets/cat.png';
+    cat.style.position = 'fixed';
+    cat.style.top = '-50px';
+    cat.style.left = Math.random() * 100 + 'vw';
+    cat.style.width = (Math.random() * 30 + 20) + 'px';
+    cat.style.opacity = Math.random();
+    cat.style.pointerEvents = 'none'; 
+    cat.style.animation = 'fall linear';
+    cat.style.animationDuration = (Math.random() * 5 + 3) + 's';
+    cat.style.filter = 'drop-shadow(0 0 10px #fff) drop-shadow(0 0 20px #0ff)';
+    document.body.appendChild(cat);
+
+    cat.addEventListener('animationend', () => {
+      cat.remove();
+    });
+  }
+
+  setInterval(createCat, 300);
+
+  const style = document.createElement('style');
+  style.textContent = `
+    @keyframes fall {
+      0% {
+        transform: translateY(0) rotate(0deg);
+        opacity: 1;
+      }
+      100% {
+        transform: translateY(110vh) rotate(360deg);
+        opacity: 0;
+      }
+    }
+  `;
+  document.head.appendChild(style);
+</script>
+
 </body>
 </html>
